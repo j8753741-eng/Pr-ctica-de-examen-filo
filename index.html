@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulacro de Filosofía — Patrística, Medieval, Moderna, Ética, Contemporánea</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#6ee7b7;
+      --muted:#94a3b8;
+      --text:#e6eef8;
+      --glass: rgba(255,255,255,0.03);
+      --success:#16a34a;
+      --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#071127 0%, #0b1220 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+      min-height:100vh;
+    }
+    .container{
+      max-width:900px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    header h1{
+      font-size:20px;
+      margin:0;
+    }
+    header p{ margin:0; color:var(--muted); font-size:14px }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      padding:18px;
+      border-radius:12px;
+      margin-bottom:16px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+    }
+    .text-block{
+      font-size:15px;
+      line-height:1.5;
+      color:#dbeafe;
+      background:var(--glass);
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:12px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .question{
+      margin:10px 0 18px;
+      padding:12px;
+      border-radius:8px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .q-title{ font-weight:600; margin-bottom:8px; }
+    .choices{ display:grid; gap:8px; }
+    label.choice{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      padding:8px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.02);
+      background:transparent;
+      transition:background .12s, transform .08s;
+      font-size:15px;
+    }
+    label.choice:hover{ background: rgba(255,255,255,0.02); transform:translateY(-1px) }
+    input[type="radio"]{ width:18px; height:18px; margin-top:3px; accent-color: var(--accent); }
+    .controls{ display:flex; gap:10px; align-items:center; margin-top:8px; flex-wrap:wrap }
+    button{
+      background:linear-gradient(90deg,var(--accent), #34d399);
+      border:none;
+      color:#042022;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(35,197,168,0.08);
+    }
+    button.secondary{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--text);
+      font-weight:600;
+    }
+    .result{
+      margin-top:12px;
+      padding:12px;
+      border-radius:8px;
+    }
+    .result.good{ background: rgba(22,163,74,0.12); border:1px solid rgba(22,163,74,0.18); color:var(--success) }
+    .result.bad{ background: rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.12); color:var(--danger) }
+    .feedback{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .explain{
+      margin-top:8px;
+      padding:10px;
+      border-radius:8px;
+      background: rgba(255,255,255,0.02);
+      font-size:14px;
+      color:#cfe9ff;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+    }
+    .meta{ display:flex; gap:12px; align-items:center; color:var(--muted); font-size:13px; margin-bottom:8px }
+    @media (max-width:560px){
+      header{ flex-direction:column; align-items:flex-start; gap:6px }
+      .controls{ flex-direction:column; align-items:stretch }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div style="width:52px;height:52px;border-radius:10px;background:linear-gradient(180deg,#06202a,#052233);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent)">Φ</div>
+      <div>
+        <h1>Simulacro de Filosofía — estilo *texto + preguntas*</h1>
+        <p>Patrística, Medieval, Edad Moderna, Ética y Contemporánea — Practica con el examen que armamos.</p>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="meta">
+        <div>11 preguntas</div>
+        <div>Responde y presiona <strong>Calificar</strong></div>
+      </div>
+
+      <!-- Question blocks: each includes a short text and 1-2 questions as in the simulacro -->
+      <form id="examForm">
+
+        <!-- Text 1 - San Agustín -->
+        <section class="question" data-q="1">
+          <div class="text-block">
+            <strong>Texto 1 — San Agustín (Patrística)</strong><br>
+            “No busques fuera de ti; vuelve a ti mismo. En el hombre interior habita la verdad. Busca esa luz inmutable que ilumina tu mente.”
+          </div>
+
+          <div class="q-title">1) Según el texto, para San Agustín el conocimiento verdadero se alcanza:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q1" value="A"> A) A través de los sentidos.</label>
+            <label class="choice"><input type="radio" name="q1" value="B"> B) Por la contemplación del mundo natural.</label>
+            <label class="choice"><input type="radio" name="q1" value="C"> C) Por la iluminación divina que actúa en el interior del hombre.</label>
+            <label class="choice"><input type="radio" name="q1" value="D"> D) Gracias al razonamiento lógico y matemático.</label>
+          </div>
+        </section>
+
+        <section class="question" data-q="2">
+          <div class="q-title">2) En la Patrística, la relación entre fe y razón es:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q2" value="A"> A) Incompatibles y separadas.</label>
+            <label class="choice"><input type="radio" name="q2" value="B"> B) Se complementan, aunque la fe tiene primacía.</label>
+            <label class="choice"><input type="radio" name="q2" value="C"> C) Equivalentes en valor.</label>
+            <label class="choice"><input type="radio" name="q2" value="D"> D) No se relacionan.</label>
+          </div>
+        </section>
+
+        <!-- Text 2 - Santo Tomás -->
+        <section class="question" data-q="3">
+          <div class="text-block">
+            <strong>Texto 2 — Santo Tomás (Filosofía Medieval)</strong><br>
+            “Así como el conocimiento de Dios por revelación pertenece a la fe, el conocimiento de su existencia puede alcanzarse por la razón natural, observando el orden del mundo.”
+          </div>
+
+          <div class="q-title">3) Según Santo Tomás, la razón humana:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q3" value="A"> A) No puede conocer nada acerca de Dios.</label>
+            <label class="choice"><input type="radio" name="q3" value="B"> B) Puede demostrar racionalmente que Dios existe.</label>
+            <label class="choice"><input type="radio" name="q3" value="C"> C) Solo sirve para conocer cosas materiales.</label>
+            <label class="choice"><input type="radio" name="q3" value="D"> D) Es inútil para la fe.</label>
+          </div>
+        </section>
+
+        <section class="question" data-q="4">
+          <div class="q-title">4) En la filosofía medieval, el centro de la reflexión es:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q4" value="A"> A) El hombre.</label>
+            <label class="choice"><input type="radio" name="q4" value="B"> B) El universo físico.</label>
+            <label class="choice"><input type="radio" name="q4" value="C"> C) Dios como causa primera.</label>
+            <label class="choice"><input type="radio" name="q4" value="D"> D) El conocimiento científico.</label>
+          </div>
+        </section>
+
+        <!-- Text 3 - Descartes -->
+        <section class="question" data-q="5">
+          <div class="text-block">
+            <strong>Texto 3 — Descartes (Edad Moderna)</strong><br>
+            “He resuelto fingir que todo cuanto me ha entrado en la mente es falso, hasta encontrar algo que no pueda ser puesto en duda. Y así advertí que, mientras pensaba, existía necesariamente.”
+          </div>
+
+          <div class="q-title">5) El pensamiento cartesiano marca el inicio del:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q5" value="A"> A) Empirismo.</label>
+            <label class="choice"><input type="radio" name="q5" value="B"> B) Racionalismo moderno.</label>
+            <label class="choice"><input type="radio" name="q5" value="C"> C) Idealismo alemán.</label>
+            <label class="choice"><input type="radio" name="q5" value="D"> D) Positivismo.</label>
+          </div>
+        </section>
+
+        <section class="question" data-q="6">
+          <div class="q-title">6) En la frase “pienso, luego existo”, Descartes demuestra que:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q6" value="A"> A) La conciencia del propio pensamiento es la primera verdad indudable.</label>
+            <label class="choice"><input type="radio" name="q6" value="B"> B) Todo conocimiento se basa en la experiencia sensorial.</label>
+            <label class="choice"><input type="radio" name="q6" value="C"> C) El cuerpo es más importante que la mente.</label>
+            <label class="choice"><input type="radio" name="q6" value="D"> D) La existencia humana depende de los sentidos.</label>
+          </div>
+        </section>
+
+        <!-- Text 4 - Kant -->
+        <section class="question" data-q="7">
+          <div class="text-block">
+            <strong>Texto 4 — Kant (Ética)</strong><br>
+            “Obra solo según aquella máxima por la cual puedas querer que al mismo tiempo se convierta en ley universal.”
+          </div>
+
+          <div class="q-title">7) Según Kant, una acción moral debe:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q7" value="A"> A) Buscar la felicidad del individuo.</label>
+            <label class="choice"><input type="radio" name="q7" value="B"> B) Cumplir con el deber independientemente de las consecuencias.</label>
+            <label class="choice"><input type="radio" name="q7" value="C"> C) Generar el mayor placer posible.</label>
+            <label class="choice"><input type="radio" name="q7" value="D"> D) Adecuarse a las normas sociales.</label>
+          </div>
+        </section>
+
+        <section class="question" data-q="8">
+          <div class="q-title">8) Para Kant, el valor moral de una acción depende de:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q8" value="A"> A) Su resultado.</label>
+            <label class="choice"><input type="radio" name="q8" value="B"> B) El deber y la buena voluntad del sujeto.</label>
+            <label class="choice"><input type="radio" name="q8" value="C"> C) La aprobación social.</label>
+            <label class="choice"><input type="radio" name="q8" value="D"> D) La utilidad práctica.</label>
+          </div>
+        </section>
+
+        <!-- Text 5 - Sartre -->
+        <section class="question" data-q="9">
+          <div class="text-block">
+            <strong>Texto 5 — Sartre (Existencialismo)</strong><br>
+            “El hombre está condenado a ser libre: una vez arrojado al mundo, es responsable de todo lo que hace... El hombre no es otra cosa que lo que hace de sí mismo.”
+          </div>
+
+          <div class="q-title">9) Según Sartre, el ser humano:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q9" value="A"> A) Nace con una esencia definida.</label>
+            <label class="choice"><input type="radio" name="q9" value="B"> B) Se define a sí mismo por sus decisiones.</label>
+            <label class="choice"><input type="radio" name="q9" value="C"> C) Está determinado por la voluntad divina.</label>
+            <label class="choice"><input type="radio" name="q9" value="D"> D) No tiene responsabilidad moral.</label>
+          </div>
+        </section>
+
+        <section class="question" data-q="10">
+          <div class="q-title">10) En la filosofía contemporánea, el existencialismo se centra en:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q10" value="A"> A) La demostración racional de Dios.</label>
+            <label class="choice"><input type="radio" name="q10" value="B"> B) El método científico.</label>
+            <label class="choice"><input type="radio" name="q10" value="C"> C) La libertad y la responsabilidad del individuo.</label>
+            <label class="choice"><input type="radio" name="q10" value="D"> D) El estudio lógico del lenguaje.</label>
+          </div>
+        </section>
+
+        <!-- Text 6 - Utilitarismo -->
+        <section class="question" data-q="11">
+          <div class="text-block">
+            <strong>Texto 6 — John Stuart Mill (Utilitarismo)</strong><br>
+            “Las acciones son correctas en la medida en que tienden a promover la felicidad; incorrectas en tanto que producen lo contrario.”
+          </div>
+
+          <div class="q-title">11) Según Mill, el criterio moral de una acción es:</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q11" value="A"> A) El cumplimiento del deber.</label>
+            <label class="choice"><input type="radio" name="q11" value="B"> B) La fe en la voluntad divina.</label>
+            <label class="choice"><input type="radio" name="q11" value="C"> C) La cantidad de placer o bienestar que genera.</label>
+            <label class="choice"><input type="radio" name="q11" value="D"> D) Su adecuación a las normas tradicionales.</label>
+          </div>
+        </section>
+
+        <div class="controls">
+          <button id="gradeBtn" type="button">Calificar</button>
+          <button id="resetBtn" type="button" class="secondary">Reiniciar</button>
+          <div id="status" style="margin-left:auto;color:var(--muted)">Sin calificar</div>
+        </div>
+
+        <div id="resultArea"></div>
+      </form>
+    </div>
+
+    <footer>
+      <div>Hecho para práctica — si querés, te lo dejo con temporizador o en versión "1 pregunta por página".</div>
+      <div style="margin-top:6px;color:var(--muted)">Éxitos en el repaso, y si querés, subo una versión con cronómetro.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Respuestas correctas y explicaciones
+    const answers = {
+      q1: { correct: 'C', explain: 'San Agustín defiende la iluminación interior: la verdad está en el hombre interior y viene de Dios.' },
+      q2: { correct: 'B', explain: 'La Patrística busca armonizar fe y razón; la fe suele tener primacía, y la razón ayuda a comprenderla.' },
+      q3: { correct: 'B', explain: 'Santo Tomás sostiene que la razón natural puede conocer la existencia de Dios (cinco vías).' },
+      q4: { correct: 'C', explain: 'La filosofía medieval gira en torno a Dios como causa primera y centro de la reflexión.' },
+      q5: { correct: 'B', explain: 'Descartes es el padre del racionalismo moderno: la razón como fundamento del conocimiento.' },
+      q6: { correct: 'A', explain: 'Para Descartes la conciencia del pensamiento es la primera verdad indudable: "pienso, luego existo".' },
+      q7: { correct: 'B', explain: 'Kant sostiene que la moralidad se funda en el deber y la buena voluntad, no en las consecuencias.' },
+      q8: { correct: 'B', explain: 'El valor moral depende de actuar por deber y buena voluntad (imperativo categórico).' },
+      q9: { correct: 'B', explain: 'Sartre: el hombre se define por sus acciones; no hay una esencia previa.' },
+      q10: { correct: 'C', explain: 'El existencialismo pone el énfasis en la libertad y la responsabilidad del individuo.' },
+      q11: { correct: 'C', explain: 'El utilitarismo evalúa las acciones por la cantidad de felicidad o bienestar que producen.' }
+    };
+
+    const gradeBtn = document.getElementById('gradeBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultArea = document.getElementById('resultArea');
+    const status = document.getElementById('status');
+    const form = document.getElementById('examForm');
+
+    function getSelectedAnswers(){
+      const formData = new FormData(form);
+      const selected = {};
+      for (let [k,v] of formData.entries()){
+        selected[k] = v;
+      }
+      return selected;
+    }
+
+    function gradeExam(){
+      const selected = getSelectedAnswers();
+      let score = 0;
+      let total = Object.keys(answers).length;
+      let missing = [];
+      let detailsHtml = '';
+
+      // iterate questions
+      for (let i=1; i<= total; i++){
+        const key = 'q' + i;
+        const ans = answers[key];
+        const user = selected[key] || null;
+        const correct = ans.correct;
+        const isCorrect = user === correct;
+        if (user === null) missing.push(i);
+        if (isCorrect) score++;
+
+        detailsHtml += `
+          <div class="card" style="margin-bottom:10px;padding:12px;">
+            <div style="font-weight:700">Pregunta ${i} — tu respuesta: ${user || '<i>sin responder</i>'} ${isCorrect ? '✅' : '❌'}</div>
+            <div class="explain"><strong>Respuesta correcta:</strong> ${correct}. &nbsp; <strong>Explicación:</strong> ${ans.explain}</div>
+          </div>
+        `;
+      }
+
+      const percent = Math.round((score/total)*100);
+      let resultClass = percent >= 70 ? 'good' : 'bad';
+      let resultText = `<div class="result ${resultClass}"><strong>Resultado:</strong> ${score} / ${total} respuestas correctas — ${percent}%</div>`;
+
+      if (missing.length){
+        resultText += `<div class="feedback">No respondiste las preguntas: ${missing.join(', ')}. Asegurate de completar todo antes de calificar para simular la prueba real.</div>`;
+      }
+
+      resultArea.innerHTML = resultText + detailsHtml;
+      status.textContent = 'Calificado';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetExam(){
+      form.reset();
+      resultArea.innerHTML = '';
+      status.textContent = 'Sin calificar';
+    }
+
+    gradeBtn.addEventListener('click', () => {
+      gradeExam();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      resetExam();
+    });
+
+    // keyboard shortcut: Ctrl+Enter to grade
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        gradeExam();
+      }
+    });
+  </script>
+</body>
+  </html>
